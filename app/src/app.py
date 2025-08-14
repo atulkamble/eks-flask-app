@@ -1,10 +1,11 @@
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template, send_from_directory
 
-app = Flask(__name__)
+# Tell Flask where templates/static live
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
 @app.route("/")
-def home():
+def home_json():
     return jsonify({
         "message": "Hello from Flask on EKS!",
         "app": os.getenv("APP_NAME", "eks-flask-app"),
@@ -21,6 +22,11 @@ def echo():
     payload = request.json or {}
     return jsonify({"echo": payload, "status": "received"}), 200
 
+# New: simple UI
+@app.route("/ui")
+def ui():
+    return render_template("index.html")
+
 if __name__ == "__main__":
-    # For local dev only; in container we use gunicorn
+    # local dev convenience
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", "8080")))

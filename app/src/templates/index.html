@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EKS Flask App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🚀 EKS Flask App</h1>
+      <p class="muted">Kubernetes • EKS • Docker • Flask</p>
+    </header>
+
+    <section class="card">
+      <h2>Service Info</h2>
+      <div id="info" class="mono"></div>
+      <button id="refresh" class="btn">Refresh</button>
+    </section>
+
+    <section class="card">
+      <h2>Echo Tester</h2>
+      <form id="echoForm">
+        <label>JSON Payload</label>
+        <textarea id="payload" rows="6" placeholder='{"hello":"world"}'></textarea>
+        <button class="btn" type="submit">Send</button>
+      </form>
+      <pre id="echoOut" class="mono"></pre>
+    </section>
+
+    <footer>
+      <a href="/" target="_blank">Raw JSON API</a>
+      <span>•</span>
+      <a href="/health" target="_blank">Health</a>
+    </footer>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
