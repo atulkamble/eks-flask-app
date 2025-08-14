@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-flask
+  namespace: demo
+  labels:
+    app: eks-flask
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eks-flask
+  template:
+    metadata:
+      labels:
+        app: eks-flask
+    spec:
+      containers:
+        - name: app
+          # Overridden by Kustomize overlays
+          image: REPLACE_ME_IMAGE:REPLACE_ME_TAG
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_ENV
+              value: "dev"
+            - name: APP_VERSION
+              value: "v0.1.0"
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: APP_NAME
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

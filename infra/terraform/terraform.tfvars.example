@@ -1,0 +1,8 @@
+# Copy to terraform.tfvars and modify if needed
+project_name       = "eks-flask-app"
+aws_region         = "us-east-1"
+eks_cluster_version = "1.29"
+desired_size       = 2
+min_size           = 2
+max_size           = 3
+instance_types     = ["t3.medium"]
